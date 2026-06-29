@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الهكر ميادة</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding-top: 15%;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            transition: background 0.1s ease;
+        }
+        h1 { font-size: 3.5rem; text-shadow: 0 0 15px #0f0; }
+        button {
+            background-color: #0f0; color: #000; border: none;
+            padding: 15px 30px; font-size: 1.2rem; font-weight: bold;
+            cursor: pointer; margin-top: 20px; border-radius: 5px;
+            box-shadow: 0 0 10px #0f0;
+        }
+        #scare-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            z-index: 999;
+            padding-top: 10%;
+        }
+        .scary-txt { color: red; font-size: 1.8rem; font-weight: bold; margin: 15px; }
+        .scary-img { width: 280px; margin-top: 20px; border: 3px solid red; }
+        
+        /* تأثير فلاش الكاميرا الوهمي */
+        .flash-active {
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-content">
+        <h1>الهكر ميادة ☠️</h1> 
+        <p>اضغط على الزر لتسلم جائزتك التفاعلية.</p>
+        <button onclick="triggerHack()">اضغط هنا للاستلام</button>
+    </div>
+
+    <!-- شاشة المقلب -->
+    <div id="scare-screen">
+        <p class="scary-txt" id="status-1">🔴 جاري الاتصال بالعدسة الأمامية...</p>
+        <p class="scary-txt" id="status-2" style="color: #fff; font-size: 2.5rem;"></p>
+        <img id="hacker-img" class="scary-img" src="https://i.imgur.com/HgXg6gX.gif" style="display:none;" alt="Hacked"><br>
+        <button id="end-btn" style="background-color: red; color: white; display:none;" onclick="endPrank()">إصلاح النظام وحذف الصورة</button>
+    </div>
+
+    <!-- الأصوات المستخدمة (روابط مباشرة لأصوات حقيقية) -->
+    <audio id="beepSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
+    <audio id="cameraSound" src="https://assets.mixkit.co/active_storage/sfx/1726/1726-84.wav" preload="auto"></audio>
+
+    <script>
+        function triggerHack() {
+            // إخفاء الواجهة الأولى وإظهار شاشة المقلب
+            document.getElementById("main-content").style.display = "none";
+            document.getElementById("scare-screen").style.display = "block";
+            
+            let countdown = 3;
+            let status2 = document.getElementById("status-2");
+            let beep = document.getElementById("beepSound");
+            let camera = document.getElementById("cameraSound");
+
+            // عد تنازلي مع صوت "بيب" لإثارة التوتر
+            let timer = setInterval(() => {
+                if (countdown > 0) {
+                    status2.innerText = "سيتم التصوير خلال: " + countdown;
+                    beep.play(); // تشغيل صوت العداد
+                    countdown--;
+                } else {
+                    clearInterval(timer);
+                    status2.innerText = "";
+                    document.getElementById("status-1").innerText = "📸 تم التقاط صورتك بنجاح وحفظها!";
+                    
+                    // تشغيل صوت الكاميرا الفعلي
+                    camera.play();
+                    
+                    // عمل تأثير "فلاش" أبيض سريع للشاشة لتبدو كأنها صورت فعلاً
+                    document.body.classList.add("flash-active");
+                    setTimeout(() => {
+                        document.body.classList.remove("flash-active");
+                    }, 150);
+
+                    // إظهار صورة الهكر وزر الإنهاء بعد ثانية من الفلاش
+                    setTimeout(() => {
+                        document.getElementById("hacker-img").style.display = "inline-block";
+                        document.getElementById("end-btn").style.display = "inline-block";
+                        document.getElementById("status-1").innerText = "🚨 جاري رفع الصورة إلى سيرفرات المخابرات... 💾";
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        function endPrank() {
+            alert("ههههههههههه تعيشي وتأكلي غيرها! المقلب من ميادة.. ما صوّرتك ولا شيء، المتصفح ما يقدر يصور بدون إذنك! 😜الغلابة كلو تمام ونورتي الموقع ❤️");
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>
